@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import List from "../List/List";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+import List from "../List";
 import Badge from "../Badge";
 
 import "./AddButtonList.scss";
 import closeSvg from "../../assets/img/close.svg";
 
-const AddButtonList = ({ colors, onAdd }) => {
+const AddList = ({ colors, onAdd }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [selectedColor, selectColor] = useState(null);
+  const [selectedColor, selectColor] = useState(3);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (Array.isArray(colors)) {
+      selectColor(colors[0].id);
+    }
+  }, [colors]);
 
   const onClose = () => {
     setVisiblePopup(false);
@@ -17,9 +26,21 @@ const AddButtonList = ({ colors, onAdd }) => {
   };
 
   const addList = () => {
-    const color = colors.filter((c) => c.id === selectedColor)[0].name;
-    onAdd({ id: Math.random(), name: inputValue, color });
-    onClose();
+    setIsLoading(true);
+    axios
+      .post("http://localhost:3001/lists", {
+        name: inputValue,
+        colorId: selectedColor,
+      })
+      .then(({ data }) => {
+        const color = colors.filter((c) => c.id === selectedColor)[0].name;
+        const listobj = { ...data, color: { name: color } };
+        onAdd(listobj);
+        onClose();
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -86,7 +107,7 @@ const AddButtonList = ({ colors, onAdd }) => {
             ))}
           </div>
           <button onClick={addList} className="button">
-            Добавить
+            {isLoading ? "Добавление..." : "Добавить"}
           </button>
         </div>
       )}
@@ -94,4 +115,4 @@ const AddButtonList = ({ colors, onAdd }) => {
   );
 };
 
-export default AddButtonList;
+export default AddList;

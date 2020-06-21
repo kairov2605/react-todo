@@ -23,8 +23,8 @@ body {
   border-radius: 10px;
   border: 1px solid #f1f1f1;
 
-  &__tasks{
-    flex:1;
+  &__tasks {
+    flex: 1;
     padding: 60px;
   }
 
@@ -50,11 +50,26 @@ body {
   border-radius: 4px;
   border: 0;
   padding: 10px 20px;
-
+  color: #ffffff;
+cursor: pointer;
   &:hover {
     background: darken($color: #4dd599, $amount: 10%);
   }
   &:active {
     background: darken($color: #4dd599, $amount: 15%);
   }
+  &:disabled{
+    background:#575a59;
+  }
+  &--grey {
+    background: #F4F6F8;
+    color:#9C9C9C;
+      &:hover {
+    background: darken($color: #F4F6F8, $amount: 10%);
+  }
+  &:active {
+    background: darken($color: #F4F6F8, $amount: 15%);
+  }
+  }
+
 }

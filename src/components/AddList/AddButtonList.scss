@@ -8,13 +8,13 @@
     padding: 18px;
     box-sizing: border-box;
     position: relative;
-    top:-17px;
+    top: -17px;
     right: -9px;
-    &-close{
-        position: absolute;
-        top:-5px;
-        right: -5px;
-        cursor: pointer;
+    &-close {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      cursor: pointer;
     }
     &-colors {
       display: flex;
